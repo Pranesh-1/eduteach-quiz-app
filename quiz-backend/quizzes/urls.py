@@ -5,7 +5,8 @@ from .views import (
     QuizDetailView,
     SubmitAttemptView,
     AttemptHistoryView,
-    AttemptResultView
+    AttemptResultView,
+    DebugEnvView
 )
 
 urlpatterns = [
