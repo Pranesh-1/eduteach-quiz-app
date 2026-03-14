@@ -33,8 +33,14 @@ api.interceptors.response.use(
   (error) => {
     if (!error.response) {
       error.message = 'Could not connect to the server. Please check your connection.';
-    } else if (error.response.status >= 500) {
-      error.message = 'Server error. Please try again later.';
+    } else {
+      // If backend sent a specific error message, use it
+      const backendMsg = error.response.data?.error || error.response.data?.detail;
+      if (backendMsg) {
+        error.message = backendMsg;
+      } else if (error.response.status >= 500) {
+        error.message = 'Server error. Please try again later.';
+      }
     }
     return Promise.reject(error);
   }
