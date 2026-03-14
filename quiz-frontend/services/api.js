@@ -1,0 +1,34 @@
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'http://localhost:8000/api',
+});
+
+api.interceptors.request.use((config) => {
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+  return config;
+});
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (!error.response) {
+      error.message = 'Could not connect to the server. Please check your connection.';
+    } else if (error.response.status >= 500) {
+      error.message = 'Server error. Please try again later.';
+    }
+    return Promise.reject(error);
+  }
+);
+
+export const requestAuth = async (url, data) => {
+    const res = await api.post(url, data);
+    return res.data;
+};
+
+export default api;

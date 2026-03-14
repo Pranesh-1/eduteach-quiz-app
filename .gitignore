@@ -1,0 +1,43 @@
+# Node.js
+quiz-frontend/node_modules/
+quiz-frontend/.next/
+quiz-frontend/out/
+quiz-frontend/build/
+quiz-frontend/.env.local
+quiz-frontend/.env.development.local
+quiz-frontend/.env.test.local
+quiz-frontend/.env.production.local
+quiz-frontend/npm-debug.log*
+quiz-frontend/yarn-debug.log*
+quiz-frontend/yarn-error.log*
+
+# Python / Django
+quiz-backend/__pycache__/
+quiz-backend/*.py[cod]
+quiz-backend/*$py.class
+quiz-backend/.env
+quiz-backend/venv/
+quiz-backend/env/
+quiz-backend/db.sqlite3
+quiz-backend/db.sqlite3-journal
+quiz-backend/staticfiles/
+quiz-backend/media/
+quiz-backend/.python-version
+
+# IDEs & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# AI Antigravity Logs
+brain/
+.gemini/
+.agent/
+.agents/
+.system_generated/
+tmp/
+*.webp
+*.png
+*.mp4
