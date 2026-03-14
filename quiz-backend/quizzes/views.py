@@ -1,4 +1,6 @@
+import os
 import logging
+from django.conf import settings
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -149,3 +151,15 @@ class AttemptResultView(generics.RetrieveAPIView):
     
     def get_queryset(self):
         return Attempt.objects.filter(user=self.request.user)
+
+class DebugEnvView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        import os
+        return Response({
+            "groq_key_present": bool(os.environ.get("GROQ_API_KEY")),
+            "groq_key_length": len(os.environ.get("GROQ_API_KEY", "")),
+            "db_url_present": bool(os.environ.get("DATABASE_URL")),
+            "debug_mode": settings.DEBUG,
+            "allowed_hosts": settings.ALLOWED_HOSTS,
+        })
