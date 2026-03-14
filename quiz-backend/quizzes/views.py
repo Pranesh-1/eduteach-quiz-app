@@ -10,65 +10,68 @@ class CreateQuizView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        topic = request.data.get('topic')
-        difficulty = request.data.get('difficulty')
-        num_questions = int(request.data.get('num_questions', 5))
-        time_limit_raw = request.data.get('time_limit_minutes')
-        time_limit = int(time_limit_raw) if time_limit_raw is not None else 0
+        try:
+            topic = request.data.get('topic')
+            difficulty = request.data.get('difficulty')
+            num_questions_raw = request.data.get('num_questions', 5)
+            num_questions = int(num_questions_raw) if num_questions_raw else 5
+            time_limit_raw = request.data.get('time_limit_minutes')
+            time_limit = int(time_limit_raw) if time_limit_raw is not None else 0
 
-        if not topic or not difficulty:
-            return Response({"error": "Topic and difficulty are required"}, status=status.HTTP_400_BAD_REQUEST)
+            if not topic or not difficulty:
+                return Response({"error": "Topic and difficulty are required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        ai_response = generate_quiz_questions(topic, difficulty, num_questions)
-        
-        if not ai_response.get("success"):
-            return Response({"error": ai_response.get("error", "AI Service Error")}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            ai_response = generate_quiz_questions(topic, difficulty, num_questions)
             
-        raw_questions = ai_response["data"]
+            if not ai_response.get("success"):
+                return Response({"error": ai_response.get("error", "AI Service Error")}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                
+            raw_questions = ai_response["data"]
 
-        quiz = Quiz.objects.create(
-            user=request.user,
-            topic=topic,
-            difficulty=difficulty,
-            num_questions=len(raw_questions),
-            time_limit_minutes=time_limit
-        )
-
-        for idx, q_data in enumerate(raw_questions):
-            opts = q_data.get('options', [])
-            if len(opts) < 4:
-                opts.extend([''] * (4 - len(opts)))
-
-            raw_answer = str(q_data.get('answer', 'A')).strip()
-
-            # Normalize: ensure answer is A/B/C/D
-            # If AI returned a letter, use it directly; otherwise match text to option
-            upper_answer = raw_answer.upper()
-            if upper_answer in ['A', 'B', 'C', 'D']:
-                correct_letter = upper_answer
-            else:
-                # AI returned full text — find which option matches
-                letter_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3}
-                correct_letter = 'A'  # fallback
-                raw_lower = raw_answer.lower()
-                for letter, idx in letter_map.items():
-                    if idx < len(opts) and raw_lower in opts[idx].lower():
-                        correct_letter = letter
-                        break
-
-            Question.objects.create(
-                quiz=quiz,
-                question_text=q_data.get('question', ''),
-                option_a=opts[0][:255],
-                option_b=opts[1][:255],
-                option_c=opts[2][:255],
-                option_d=opts[3][:255],
-                correct_answer=correct_letter,
-                explanation=q_data.get('explanation', '')
+            quiz = Quiz.objects.create(
+                user=request.user,
+                topic=topic,
+                difficulty=difficulty,
+                num_questions=len(raw_questions),
+                time_limit_minutes=time_limit
             )
 
-        serializer = QuizSerializer(quiz)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            for idx, q_data in enumerate(raw_questions):
+                opts = q_data.get('options', [])
+                if len(opts) < 4:
+                    opts.extend([''] * (4 - len(opts)))
+
+                raw_answer = str(q_data.get('answer', 'A')).strip()
+                upper_answer = raw_answer.upper()
+                if upper_answer in ['A', 'B', 'C', 'D']:
+                    correct_letter = upper_answer
+                else:
+                    letter_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3}
+                    correct_letter = 'A'
+                    raw_lower = raw_answer.lower()
+                    for letter, l_idx in letter_map.items():
+                        if l_idx < len(opts) and raw_lower in opts[l_idx].lower():
+                            correct_letter = letter
+                            break
+
+                Question.objects.create(
+                    quiz=quiz,
+                    question_text=q_data.get('question', ''),
+                    option_a=opts[0][:255],
+                    option_b=opts[1][:255],
+                    option_c=opts[2][:255],
+                    option_d=opts[3][:255],
+                    correct_answer=correct_letter,
+                    explanation=q_data.get('explanation', '')
+                )
+
+            serializer = QuizSerializer(quiz)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            import logging
+            logging.exception("Serious error in CreateQuizView:")
+            logger.exception("Serious error in CreateQuizView:")
+            return Response({"error": f"Internal Server Error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class QuizHistoryView(generics.ListAPIView):
     serializer_class = QuizSerializer

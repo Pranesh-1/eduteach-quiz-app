@@ -7,7 +7,10 @@ from groq import Groq
 logger = logging.getLogger(__name__)
 
 def get_groq_client():
-    return Groq(api_key=os.environ.get("GROQ_API_KEY"), timeout=20.0, max_retries=2)
+    key = os.environ.get("GROQ_API_KEY")
+    if not key:
+        logger.error("GROQ_API_KEY is missing from environment variables!")
+    return Groq(api_key=key, timeout=60.0, max_retries=2)
 
 def validate_quiz_data(data):
     if not isinstance(data, list):
