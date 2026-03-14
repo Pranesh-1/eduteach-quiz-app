@@ -1,6 +1,9 @@
-# AI-Powered Quiz Application
+# Lumina: AI-Powered Learning 🌑✨
 
-A fullstack application that allows users to generate personalized quizzes using AI, take them, and track their performance. This project satisfies all core requirements and explicitly includes advanced "Wow" enhancements tailored for EdTech usability (like AI-driven answer explanations, loading states, and robust error handling).
+**Lumina** is a premium, fullstack application that allows users to generate personalized quizzes using AI, take them, and track their performance. This project satisfies all core requirements and explicitly includes advanced "Wow" enhancements tailored for EdTech usability (like AI-driven answer explanations, loading states, and robust error handling).
+
+**Live Frontend**: [https://quizai-six-gray.vercel.app/](https://quizai-six-gray.vercel.app/)  
+**Live Backend**: [https://quiz-backend-l93v.onrender.com/](https://quiz-backend-l93v.onrender.com/)
 
 ## Tech Stack
 - **Frontend**: Next.js (Pages Router), Tailwind CSS, Axios, Lucide React
