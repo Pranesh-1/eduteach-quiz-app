@@ -7,6 +7,10 @@ from groq import Groq
 logger = logging.getLogger(__name__)
 
 def get_groq_client():
+    # Explicitly clear proxy env vars that often crash httpx in restricted envs
+    for env_var in ["HTTP_PROXY", "HTTPS_PROXY", "all_proxy", "ALL_PROXY"]:
+        os.environ.pop(env_var, None)
+        
     key = os.environ.get("GROQ_API_KEY")
     if not key:
         logger.error("GROQ_API_KEY is missing from environment variables!")
