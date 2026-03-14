@@ -22,7 +22,7 @@ A fullstack application that allows users to generate personalized quizzes using
 ![Result Breakdown](docs/screenshots/results.png)
 
 ### Graceful Error Handling
-![Error State](docs/screenshots/error.webp)
+![Error State](docs/screenshots/error.png)
 
 ---
 
