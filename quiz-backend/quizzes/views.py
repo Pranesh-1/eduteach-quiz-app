@@ -1,3 +1,4 @@
+import logging
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -5,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Quiz, Question, Attempt, UserAnswer
 from .serializers import QuizSerializer, AttemptSerializer
 from .ai.quiz_generator import generate_quiz_questions
+
+logger = logging.getLogger(__name__)
 
 class CreateQuizView(APIView):
     permission_classes = [IsAuthenticated]
@@ -68,8 +71,6 @@ class CreateQuizView(APIView):
             serializer = QuizSerializer(quiz)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Exception as e:
-            import logging
-            logging.exception("Serious error in CreateQuizView:")
             logger.exception("Serious error in CreateQuizView:")
             return Response({"error": f"Internal Server Error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
