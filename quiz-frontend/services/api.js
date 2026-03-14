@@ -1,10 +1,16 @@
 import axios from 'axios';
 
 const getBaseUrl = () => {
-  const url = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+  let url = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+  
+  // Remove any trailing slashes for consistency
+  url = url.replace(/\/+$/, '');
+
+  // If the URL doesn't end with /api and it's not a localhost address
   if (url && !url.endsWith('/api') && !url.includes('localhost')) {
-    return url.replace(/\/$/, '') + '/api';
+    url = url + '/api';
   }
+  
   return url;
 };
 
