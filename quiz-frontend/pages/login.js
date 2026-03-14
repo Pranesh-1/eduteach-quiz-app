@@ -64,7 +64,7 @@ export default function Login() {
           </div>
 
           <h1 style={{ fontSize: '42px', fontWeight: 900, color: 'white', marginBottom: '16px', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-            Quiz<span style={{ background: 'linear-gradient(135deg, #a78bfa, #6c63ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI</span>
+            Lumina
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '17px', lineHeight: 1.6, marginBottom: '56px' }}>
             Generate intelligent quizzes on any topic with the power of AI.
@@ -89,7 +89,7 @@ export default function Login() {
         <div className="fade-in-up" style={{ width: '100%', maxWidth: '400px' }}>
           <div style={{ marginBottom: '40px' }}>
             <h2 style={{ fontSize: '30px', fontWeight: 900, color: 'white', marginBottom: '8px', letterSpacing: '-0.01em' }}>Welcome back</h2>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '15px' }}>Sign in to your QuizAI account</p>
+            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '15px' }}>Sign in to your Lumina account</p>
           </div>
 
           {registered && (

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import api from '../services/api';
+import Head from 'next/head';
 import { Sparkles, Brain, Timer, ToggleLeft, ToggleRight, Layers, Target, Zap } from 'lucide-react';
 
 const DIFFICULTIES = [
@@ -40,6 +41,9 @@ export default function Dashboard() {
 
   return (
     <div style={{ height: 'calc(100vh - 65px)', background: '#0a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+      <Head>
+        <title>Lumina | AI-Powered Learning</title>
+      </Head>
       <style>{`
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes pulse-glow { 0%,100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.05); } }

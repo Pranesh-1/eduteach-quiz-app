@@ -36,7 +36,7 @@ export default function Navbar() {
             <Zap size={18} color="white" fill="white" />
           </div>
           <span style={{ fontSize: '18px', fontWeight: 800, background: 'linear-gradient(135deg, #a78bfa, #60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            QuizAI
+            Lumina
           </span>
         </Link>
 
