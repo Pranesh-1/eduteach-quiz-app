@@ -41,3 +41,7 @@ tmp/
 *.webp
 *.png
 *.mp4
+
+# Allow docs/screenshots
+!docs/screenshots/
+!docs/screenshots/*
