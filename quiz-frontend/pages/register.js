@@ -74,7 +74,7 @@ export default function Register() {
           </div>
 
           <h1 style={{ fontSize: '42px', fontWeight: 900, color: 'white', marginBottom: '16px', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-            Join <span style={{ background: 'linear-gradient(135deg, #34d399, #6ee7b7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>QuizAI</span>
+            Join <span style={{ background: 'linear-gradient(135deg, #34d399, #6ee7b7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Lumina</span>
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '17px', lineHeight: 1.6, marginBottom: '56px' }}>
             Start your journey to mastering any subject with AI-powered quizzes.
