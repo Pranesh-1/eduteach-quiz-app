@@ -140,6 +140,24 @@ During the live deployment to **Render** and **Vercel**, several real-world prod
 
 ---
 
+## 🚀 Features Implemented vs. Skipped (Rationale)
+
+To ensure a high-performance, polished prototype for **EdisonOS**, I prioritized core educational logic over non-essential utility features.
+
+### ✅ Implemented
+- **AI-Driven Dynamic Quiz Generation**: Leveraging Groq (LLaMA 3.3) for near-instant generation.
+- **Persistent Attempt Analytics**: A normalized schema that tracks every user answer, enabling deep feedback loops.
+- **JWT Secure Authentication**: Industry-standard secure sessions.
+- **Dark Glassmorphic UI**: A premium, "OS-grade" interface designed for focus and modern aesthetic appeal.
+- **Adaptive Thinking**: Documented the engineering logic for moving toward personalized learning.
+
+### ❌ Skipped (Rationale)
+- **Multi-Tenancy (Organizations/Schools)**: Omitted to focus on the individual user's generation experience. In a production **EdisonOS** environment, I would implement this via a Django `Tenant` middleware model.
+- **Social Login (OAuth2)**: Skipped to maintain absolute control over the custom `User` profile attributes for this assignment's scope.
+- **Live Leaderboards**: Prioritized individual learning history and performance analysis over social gamification elements to ensure server stability.
+
+---
+
 ## Future Improvements: Adaptive Learning
 
 To take this application structurally further in an EdTech ecosystem, I propose bridging the explicit normalized data layer (specifically evaluating incorrect rows dynamically sourced via `UserAnswer.is_correct == False`) natively into an **Adaptive Learning Vector Algorithm**. 
