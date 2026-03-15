@@ -122,6 +122,24 @@ I enforced a strictly compliant RESTful path design.
 
 ---
 
+## 🛠️ Deployment Troubleshooting & Learnings
+
+During the live deployment to **Render** and **Vercel**, several real-world production challenges were identified and mitigated:
+
+### 1. AI Generation Timeouts (Gunicorn)
+*   **Challenge**: The default Gunicorn timeout (30 seconds) was insufficient for the `llama-3.3-70b-versatile` model to generate high-quality questions, leading to generic 500 HTML errors.
+*   **Solution**: Extended the Gunicorn worker timeout to **120 seconds** in the `Procfile` and increased the AI client timeout to **60 seconds**.
+
+### 2. Dependency Version Mismatch (Httpx Conflict)
+*   **Challenge**: A conflict between the `groq` library and the updated `httpx` engine in the Render environment caused a "proxies" keyword argument crash.
+*   **Solution**: Upgraded `groq` to version `0.18.0` and implemented defensive code to unset proxy environment variables before AI initialization.
+
+### 3. Debugging Production Configuration
+*   **Challenge**: Catching "silent" configuration leaks in a hosted environment where `DEBUG=False`.
+*   **Solution**: Implemented a secure **Diagnostic Endpoint** (`/api/quiz/debug-env`) to verify environment variable mapping (like `GROQ_API_KEY`) without exposing secrets.
+
+---
+
 ## Future Improvements: Adaptive Learning
 
 To take this application structurally further in an EdTech ecosystem, I propose bridging the explicit normalized data layer (specifically evaluating incorrect rows dynamically sourced via `UserAnswer.is_correct == False`) natively into an **Adaptive Learning Vector Algorithm**. 
