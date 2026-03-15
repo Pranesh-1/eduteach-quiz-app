@@ -36,7 +36,7 @@ def validate_quiz_data(data):
 def generate_quiz_questions(topic, difficulty, num_questions):
     client = get_groq_client()
     prompt = f"""
-    Generate {num_questions} multiple choice questions about "{topic}".
+    Generate EXACTLY {num_questions} multiple choice questions about "{topic}".
     Difficulty: {difficulty}.
 
     STRICT RULES:

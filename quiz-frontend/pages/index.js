@@ -13,9 +13,9 @@ const DIFFICULTIES = [
 export default function Dashboard() {
   const [topic, setTopic] = useState('');
   const [difficulty, setDifficulty] = useState('Medium');
-  const [numQuestions, setNumQuestions] = useState(10);
+  const [numQuestions, setNumQuestions] = useState('10');
   const [timerEnabled, setTimerEnabled] = useState(false);
-  const [timerMinutes, setTimerMinutes] = useState(10);
+  const [timerMinutes, setTimerMinutes] = useState('10');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -28,8 +28,8 @@ export default function Dashboard() {
       const payload = {
         topic,
         difficulty,
-        num_questions: numQuestions,
-        ...(timerEnabled && { time_limit_minutes: timerMinutes }),
+        num_questions: parseInt(numQuestions) || 5,
+        ...(timerEnabled && { time_limit_minutes: parseInt(timerMinutes) || 10 }),
       };
       const res = await api.post('/quiz/generate', payload);
       router.push(`/quiz/${res.data.id}`);
@@ -118,8 +118,8 @@ export default function Dashboard() {
                   <Layers size={12} /> Questions
                 </label>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', height: '56px' }}>
-                  <input type="number" min="5" max="20" value={numQuestions}
-                    onChange={e => setNumQuestions(Math.max(5, Math.min(20, Number(e.target.value))))}
+                  <input type="number" min="5" max="25" value={numQuestions}
+                    onChange={e => setNumQuestions(e.target.value)}
                     style={{ width: '40px', background: 'none', border: 'none', borderBottom: '2px solid #a78bfa', fontSize: '18px', fontWeight: 800, color: 'white', textAlign: 'center', outline: 'none', padding: 0 }} />
                 </div>
               </div>
@@ -132,8 +132,8 @@ export default function Dashboard() {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: timerEnabled ? 'rgba(167,139,250,0.07)' : 'rgba(255,255,255,0.03)', border: `1px solid ${timerEnabled ? 'rgba(167,139,250,0.2)' : 'rgba(255,255,255,0.05)'}`, borderRadius: '12px', height: '56px', padding: '0 12px', transition: 'all 0.3s' }}>
                   {timerEnabled ? (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <input type="number" min="1" max="60" value={timerMinutes}
-                        onChange={e => setTimerMinutes(Math.max(1, Number(e.target.value)))}
+                      <input type="number" min="1" max="120" value={timerMinutes}
+                        onChange={e => setTimerMinutes(e.target.value)}
                         style={{ width: '32px', background: 'none', border: 'none', borderBottom: '2px solid #a78bfa', fontSize: '16px', fontWeight: 800, color: 'white', textAlign: 'center', outline: 'none', padding: 0 }} />
                       <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>MIN</span>
                     </div>

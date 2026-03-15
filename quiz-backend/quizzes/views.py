@@ -31,7 +31,7 @@ class CreateQuizView(APIView):
             if not ai_response.get("success"):
                 return Response({"error": ai_response.get("error", "AI Service Error")}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                 
-            raw_questions = ai_response["data"]
+            raw_questions = ai_response["data"][:num_questions]
 
             quiz = Quiz.objects.create(
                 user=request.user,
